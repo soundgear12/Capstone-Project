@@ -2,6 +2,10 @@ package com.meritamerica.capstoneproject.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Table(name = "contact_details", catalog = "meritBank")
 public class AccountHolderContactDetails {
@@ -90,6 +94,14 @@ public class AccountHolderContactDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public AccountHolder getAccountHolder() {
+		return accountHolder;
+	}
+
+	public void setAccountHolder(AccountHolder accountHolder) {
+		this.accountHolder = accountHolder;
 	}
 	
 	

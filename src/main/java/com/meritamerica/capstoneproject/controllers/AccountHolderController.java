@@ -10,11 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-
+import com.meritamerica.capstoneproject.exceptions.ExceedsAccountLimitException;
 import com.meritamerica.capstoneproject.models.AccountHolder;
+import com.meritamerica.capstoneproject.models.DBACheckingAccount;
 import com.meritamerica.capstoneproject.models.PersonalCheckingAccount;
+import com.meritamerica.capstoneproject.models.RegularIRAAccount;
+import com.meritamerica.capstoneproject.models.RothIRAAccount;
+import com.meritamerica.capstoneproject.models.SavingsAccount;
 import com.meritamerica.capstoneproject.repository.AccountHolderRepository;
+import com.meritamerica.capstoneproject.repository.BankAccountRepository;
 import com.meritamerica.capstoneproject.repository.PersonalCheckingAccountRepository;
+import com.meritamerica.capstoneproject.repository.SavingsAccountRepository;
 import com.meritamerica.capstoneproject.repository.UserRepository;
 import com.meritamerica.capstoneproject.service.AccountHolderService;
 
@@ -24,16 +30,11 @@ import javassist.NotFoundException;
 public class AccountHolderController {
 
 	@Autowired
-	AccountHolderService accountHolderService;
-	
-	@Autowired
-	PersonalCheckingAccountRepository personalCheckingAccountRepo;
+	AccountHolderService accountHolderService;	
 
-	
+	public AccountHolderController(AccountHolderRepository accountHolderRepo,
+			PersonalCheckingAccountRepository personalCheckingAccountRepo,  UserRepository userRepo) {
 
-	public AccountHolderController(PersonalCheckingAccountRepository personalCheckingAccountRepo, AccountHolderRepository accountHolderRepo, UserRepository userRepo) {
-
-		this.personalCheckingAccountRepo = personalCheckingAccountRepo;
 		this.accountHolderService = new AccountHolderService(accountHolderRepo, personalCheckingAccountRepo, userRepo);
 	}
 	
@@ -43,7 +44,9 @@ public class AccountHolderController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public AccountHolder addAccountHolder(@RequestBody @Valid AccountHolder accountHolder) {
 	
-		return accountHolderService.addAccountHolder(accountHolder); 
+		//SavingsAccount savingsAccount = accountHolder.addSavingsAccount(new @Valid SavingsAccount(0));
+		//accountHolderService.addBankAccount(savingsAccount);
+		return accountHolderService.addAccountHolder(accountHolder);
 	}
 	
 	//@PreAuthorize("hasAuthority('admin')")
@@ -66,17 +69,24 @@ public class AccountHolderController {
 	//PersonalCheckingAccount
 	@PostMapping(value = "/AccountHolders/{id}/PersonalCheckingAccount")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PersonalCheckingAccount addPersonalCheckingAccount(@PathVariable(name = "id") long id, @RequestBody @Valid PersonalCheckingAccount peronsalCheckingAccount) {
+	public PersonalCheckingAccount addPersonalCheckingAccount(@PathVariable(name = "id") long id, @RequestBody @Valid PersonalCheckingAccount peronsalCheckingAccount) throws ExceedsAccountLimitException {
 		
 		
 		AccountHolder account = accountHolderService.getAccountById(id);
-		
+		/*
 		peronsalCheckingAccount.setAccountHolder(account);
 
 		account.addPersonalCheckingAccount(peronsalCheckingAccount);
 		
 		accountHolderService.addAccountHolder(account);
-		peronsalCheckingAccount = accountHolderService.addPersonalCheckingAccount(peronsalCheckingAccount);
+		
+		
+		if (account.getPersonalCheckingAccounts() != null) {
+			throw new ExceedsAccountLimitException();
+		}
+		*/
+		peronsalCheckingAccount = accountHolderService.addPersonalCheckingAccount(id, peronsalCheckingAccount);
+		
 		
 		return peronsalCheckingAccount;
 		
@@ -86,9 +96,80 @@ public class AccountHolderController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<PersonalCheckingAccount> getPersonalCheckingAccounts(@PathVariable(name = "id") long id) throws Exception, NotFoundException {
 		
-		AccountHolder account = accountHolderService.getAccountById(id);
+		return accountHolderService.getPersonalCheckingAccounts(id);
 		
-		return account.getPersonalCheckingAccounts();
+	}
+	
+	//SavingsAccount
+	@PostMapping(value = "/AccountHolders/{id}/SavingsAccount")
+	@ResponseStatus(HttpStatus.CREATED)
+	public SavingsAccount addSavingsAccount(@PathVariable(name = "id") long id, @RequestBody @Valid SavingsAccount savingsAccount) {
+		
+		savingsAccount = accountHolderService.addSavingsAccount(id, savingsAccount);
+		
+		return savingsAccount;
+		
+	}
+	
+	@GetMapping(value = "/AccountHolders/{id}/SavingsAccount")
+	@ResponseStatus(HttpStatus.OK)
+	public List<SavingsAccount> getSavingsAccounts(@PathVariable(name = "id") long id) throws Exception, NotFoundException {
+		
+		return accountHolderService.getSavingsAccounts(id);
+	}
+	
+	//DBACheckingAccount
+	@PostMapping(value = "/AccountHolders/{id}/DBACheckingAccount")
+	@ResponseStatus(HttpStatus.CREATED)
+	public DBACheckingAccount addDBACheckingAccount(@PathVariable(name = "id") long id, @RequestBody @Valid DBACheckingAccount dbaCheckingAccount) {
+		
+		dbaCheckingAccount = accountHolderService.addDBACheckingAccount(id, dbaCheckingAccount);
+		
+		return dbaCheckingAccount;
+		
+	}
+	
+	@GetMapping(value = "/AccountHolders/{id}/DBACheckingAccount")
+	@ResponseStatus(HttpStatus.OK)
+	public List<DBACheckingAccount> getDBACheckingAccounts(@PathVariable(name = "id") long id) throws Exception, NotFoundException {
+		
+		return accountHolderService.getDBACheckingAccounts(id);
+	}
+	
+	//RegularIRAAccount
+	@PostMapping(value = "/AccountHolders/{id}/RegularIRAAccount")
+	@ResponseStatus(HttpStatus.CREATED)
+	public RegularIRAAccount addRegularIRAAccount(@PathVariable(name = "id") long id, @RequestBody @Valid RegularIRAAccount regularIRAAccount) {
+		
+		regularIRAAccount = accountHolderService.addRegularIRAAccount(id, regularIRAAccount);
+		
+		return regularIRAAccount;
+		
+	}
+	
+	@GetMapping(value = "/AccountHolders/{id}/RegularIRAAccount")
+	@ResponseStatus(HttpStatus.OK)
+	public List<RegularIRAAccount> getRegularIRAAccounts(@PathVariable(name = "id") long id) throws Exception, NotFoundException {
+		
+		return accountHolderService.getRegularIRAAccounts(id);
+	}
+	
+	//RothIRAAccount
+	@PostMapping(value = "/AccountHolders/{id}/RothIRAAccount")
+	@ResponseStatus(HttpStatus.CREATED)
+	public RothIRAAccount addRothIRAAccount(@PathVariable(name = "id") long id, @RequestBody @Valid RothIRAAccount rothIRAAccount) {
+		
+		rothIRAAccount = accountHolderService.addRothIRAAccount(id, rothIRAAccount);
+		
+		return rothIRAAccount;
+		
+	}
+	
+	@GetMapping(value = "/AccountHolders/{id}/RothIRAAccount")
+	@ResponseStatus(HttpStatus.OK)
+	public List<RothIRAAccount> getRothIRAAccounts(@PathVariable(name = "id") long id) throws Exception, NotFoundException {
+		
+		return accountHolderService.getRothIRAAccounts(id);
 	}
 	
 }

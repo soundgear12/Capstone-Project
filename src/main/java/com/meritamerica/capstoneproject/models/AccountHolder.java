@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Table(name = "account_holder", catalog = "meritbank")
 public class AccountHolder {
@@ -20,7 +20,6 @@ public class AccountHolder {
 		lastName = "";
 		ssn = "";
 	}
-	
 
 	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
 		this.firstName = firstName;
@@ -29,60 +28,56 @@ public class AccountHolder {
 		this.ssn = ssn;
 	}
 
-
 	@Id
 	@Column(name = "account_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	@NotBlank
 	private String firstName;
-	
-	
+
 	private String middleName;
-	
+
 	@NotBlank
 	private String lastName;
-	
+
 	@NotBlank
 	private String ssn;
-	
+
 	/*
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private AccountHolderContactDetails accountHolderContactDetails;
-	
-	/*
-	@JoinColumn
-	private List<CDAccount> cdAccounts;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private List<DBACheckingAccount> dbaCheckingAccounts;
-	
-	*/
+	 * @OneToOne(cascade = CascadeType.ALL)
+	 * 
+	 * @JsonManagedReference private AccountHolderContactDetails
+	 * accountHolderContactDetails;
+	 */
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonManagedReference
-	public List<PersonalCheckingAccount> personalCheckingAccounts = new ArrayList<PersonalCheckingAccount>() ;
-	/*
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private RegularIRAAccount regularIRAAccounts;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private RolloverIRAAccount rolloverIRAAccounts;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private RothIRAAccount rothIRAAccounts;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private SavingsAccount savingsAccounts;
-	*/
+	private List<CDAccount> cdAccounts = new ArrayList<CDAccount>();
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<DBACheckingAccount> dbaCheckingAccounts = new ArrayList<DBACheckingAccount>();
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	public List<PersonalCheckingAccount> personalCheckingAccounts = new ArrayList<PersonalCheckingAccount>();
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<RegularIRAAccount> regularIRAAccounts = new ArrayList<RegularIRAAccount>();
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<RolloverIRAAccount> rolloverIRAAccounts = new ArrayList<RolloverIRAAccount>();;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<RothIRAAccount> rothIRAAccounts = new ArrayList<RothIRAAccount>();;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	public List<SavingsAccount> savingsAccounts = new ArrayList<SavingsAccount>();
 
 	public long getId() {
 		return id;
@@ -125,21 +120,32 @@ public class AccountHolder {
 	}
 
 	/*
-	public AccountHolderContactDetails getAccountHolderContactDetails() {
-		return accountHolderContactDetails;
+	 * public AccountHolderContactDetails getAccountHolderContactDetails() { return
+	 * accountHolderContactDetails; }
+	 * 
+	 * public void setAccountHolderContactDetails(AccountHolderContactDetails
+	 * accountHolderContactDetails) { this.accountHolderContactDetails =
+	 * accountHolderContactDetails; }
+	 */
+
+	public CDAccount addCDAccount(CDAccount cdAccount) {
+		cdAccounts.add(cdAccount);
+		return cdAccount;
 	}
 
-	public void setAccountHolderContactDetails(AccountHolderContactDetails accountHolderContactDetails) {
-		this.accountHolderContactDetails = accountHolderContactDetails;
-	}
-
-	/*
 	public List<CDAccount> getCdAccounts() {
 		return cdAccounts;
 	}
 
 	public void setCdAccounts(List<CDAccount> cdAccounts) {
 		this.cdAccounts = cdAccounts;
+	}
+
+	public DBACheckingAccount addDBACheckingAccount(DBACheckingAccount dbaCheckingAccount) {
+
+		dbaCheckingAccounts.add(dbaCheckingAccount);
+		return dbaCheckingAccount;
+
 	}
 
 	public List<DBACheckingAccount> getDbaCheckingAccounts() {
@@ -150,55 +156,72 @@ public class AccountHolder {
 		this.dbaCheckingAccounts = dbaCheckingAccounts;
 	}
 
-	*/
-
 	public PersonalCheckingAccount addPersonalCheckingAccount(PersonalCheckingAccount personalCheckingAccount) {
 		personalCheckingAccounts.add(personalCheckingAccount);
 		return personalCheckingAccount;
 	}
-	
+
 	public List<PersonalCheckingAccount> getPersonalCheckingAccounts() {
 		return personalCheckingAccounts;
 	}
-	
 
 	public void setPersonalCheckingAccounts(List<PersonalCheckingAccount> personalCheckingAccounts) {
 		this.personalCheckingAccounts = personalCheckingAccounts;
 	}
-	
-	/*
 
-	public RegularIRAAccount getRegularIRAAccounts() {
+	
+	public RegularIRAAccount addRegularIRAAccount(RegularIRAAccount regularIRAAccount) {
+		regularIRAAccounts.add(regularIRAAccount);
+		return regularIRAAccount;
+		
+	}
+	
+	public List<RegularIRAAccount> getRegularIRAAccounts() {
 		return regularIRAAccounts;
 	}
 
-	public void setRegularIRAAccounts(RegularIRAAccount regularIRAAccounts) {
+	public void setRegularIRAAccounts(List<RegularIRAAccount> regularIRAAccounts) {
 		this.regularIRAAccounts = regularIRAAccounts;
 	}
 
-	public RolloverIRAAccount getRolloverIRAAccounts() {
+	public List<RolloverIRAAccount> getRolloverIRAAccounts() {
 		return rolloverIRAAccounts;
 	}
 
-	public void setRolloverIRAAccounts(RolloverIRAAccount rolloverIRAAccounts) {
+	public void setRolloverIRAAccounts(List<RolloverIRAAccount> rolloverIRAAccounts) {
 		this.rolloverIRAAccounts = rolloverIRAAccounts;
 	}
 
-	public RothIRAAccount getRothIRAAccounts() {
+	public List<RothIRAAccount> getRothIRAAccounts() {
 		return rothIRAAccounts;
 	}
+	
+	public RothIRAAccount addRothIRAAccount(RothIRAAccount rothIRAAccount) {
+		rothIRAAccounts.add(rothIRAAccount);
+		return rothIRAAccount;
+	}
 
-	public void setRothIRAAccounts(RothIRAAccount rothIRAAccounts) {
+	public void setRothIRAAccounts(List<RothIRAAccount> rothIRAAccounts) {
 		this.rothIRAAccounts = rothIRAAccounts;
 	}
 
-	public SavingsAccount getSavingsAccounts() {
+	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
+
+		savingsAccounts.add(savingsAccount);
+		return savingsAccount;
+
+	}
+
+	public List<SavingsAccount> getSavingsAccounts() {
 		return savingsAccounts;
 	}
 
-	public void setSavingsAccounts(SavingsAccount savingsAccounts) {
+	public void setSavingsAccounts(List<SavingsAccount> savingsAccounts) {
 		this.savingsAccounts = savingsAccounts;
 	}
 
-	*/
+
+
+
+
 }
