@@ -1,12 +1,17 @@
 package com.meritamerica.capstoneproject.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "accountHolder", catalog = "meritBank")
+@Table(name = "account_holder", catalog = "meritbank")
 public class AccountHolder {
 
 	public AccountHolder() {
@@ -28,12 +33,12 @@ public class AccountHolder {
 	@Id
 	@Column(name = "account_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 	
 	@NotBlank
 	private String firstName;
 	
-	@NotBlank
+	
 	private String middleName;
 	
 	@NotBlank
@@ -42,20 +47,25 @@ public class AccountHolder {
 	@NotBlank
 	private String ssn;
 	
+	/*
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
 	private AccountHolderContactDetails accountHolderContactDetails;
 	
+	/*
 	@JoinColumn
 	private List<CDAccount> cdAccounts;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
-	private DBACheckingAccount dbaCheckingAccounts;
+	private List<DBACheckingAccount> dbaCheckingAccounts;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private PersonalCheckingAccount personalCheckingAccounts;
+	*/
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	public List<PersonalCheckingAccount> personalCheckingAccounts = new ArrayList<PersonalCheckingAccount>() ;
+	/*
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
@@ -72,13 +82,13 @@ public class AccountHolder {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
 	private SavingsAccount savingsAccounts;
-	
+	*/
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -114,6 +124,7 @@ public class AccountHolder {
 		this.ssn = ssn;
 	}
 
+	/*
 	public AccountHolderContactDetails getAccountHolderContactDetails() {
 		return accountHolderContactDetails;
 	}
@@ -122,7 +133,7 @@ public class AccountHolder {
 		this.accountHolderContactDetails = accountHolderContactDetails;
 	}
 
-	
+	/*
 	public List<CDAccount> getCdAccounts() {
 		return cdAccounts;
 	}
@@ -131,21 +142,31 @@ public class AccountHolder {
 		this.cdAccounts = cdAccounts;
 	}
 
-	public DBACheckingAccount getDbaCheckingAccounts() {
+	public List<DBACheckingAccount> getDbaCheckingAccounts() {
 		return dbaCheckingAccounts;
 	}
 
-	public void setDbaCheckingAccounts(DBACheckingAccount dbaCheckingAccounts) {
+	public void setDbaCheckingAccounts(List<DBACheckingAccount> dbaCheckingAccounts) {
 		this.dbaCheckingAccounts = dbaCheckingAccounts;
 	}
 
-	public PersonalCheckingAccount getPersonalCheckingAccounts() {
+	*/
+
+	public PersonalCheckingAccount addPersonalCheckingAccount(PersonalCheckingAccount personalCheckingAccount) {
+		personalCheckingAccounts.add(personalCheckingAccount);
+		return personalCheckingAccount;
+	}
+	
+	public List<PersonalCheckingAccount> getPersonalCheckingAccounts() {
 		return personalCheckingAccounts;
 	}
+	
 
-	public void setPersonalCheckingAccounts(PersonalCheckingAccount personalCheckingAccounts) {
+	public void setPersonalCheckingAccounts(List<PersonalCheckingAccount> personalCheckingAccounts) {
 		this.personalCheckingAccounts = personalCheckingAccounts;
 	}
+	
+	/*
 
 	public RegularIRAAccount getRegularIRAAccounts() {
 		return regularIRAAccounts;
@@ -179,4 +200,5 @@ public class AccountHolder {
 		this.savingsAccounts = savingsAccounts;
 	}
 
+	*/
 }

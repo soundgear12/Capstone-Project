@@ -9,7 +9,7 @@ public class AccountHolderContactDetails {
 	@Id
 	@Column(name = "contact_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private long id;
 	private String phoneNumber;
 	private String address;
 	private String zipcode;
@@ -36,11 +36,11 @@ public class AccountHolderContactDetails {
 	@JoinColumn(name = "contact_id", referencedColumnName = "account_id")
 	private AccountHolder accountHolder;
 
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
