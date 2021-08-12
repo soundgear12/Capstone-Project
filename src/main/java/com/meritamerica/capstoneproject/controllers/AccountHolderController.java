@@ -43,10 +43,12 @@ public class AccountHolderController {
 	@PostMapping(value = "/AccountHolders")
 	@ResponseStatus(HttpStatus.CREATED)
 	public AccountHolder addAccountHolder(@RequestBody @Valid AccountHolder accountHolder) {
-	
-		//SavingsAccount savingsAccount = accountHolder.addSavingsAccount(new @Valid SavingsAccount(0));
-		//accountHolderService.addBankAccount(savingsAccount);
-		return accountHolderService.addAccountHolder(accountHolder);
+		
+		accountHolder = accountHolderService.addAccountHolder(accountHolder);
+		SavingsAccount savingsAccount = accountHolder.addSavingsAccount(new @Valid SavingsAccount(0));
+		accountHolderService.addSavingsAccount(accountHolder.getId(), savingsAccount);
+		
+		return accountHolder;
 	}
 	
 	//@PreAuthorize("hasAuthority('admin')")

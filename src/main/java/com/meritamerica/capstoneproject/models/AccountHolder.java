@@ -44,12 +44,9 @@ public class AccountHolder {
 	@NotBlank
 	private String ssn;
 
-	/*
-	 * @OneToOne(cascade = CascadeType.ALL)
-	 * 
-	 * @JsonManagedReference private AccountHolderContactDetails
-	 * accountHolderContactDetails;
-	 */
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private AccountHolderContactDetails accountHolderContactDetails;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -119,14 +116,13 @@ public class AccountHolder {
 		this.ssn = ssn;
 	}
 
-	/*
-	 * public AccountHolderContactDetails getAccountHolderContactDetails() { return
-	 * accountHolderContactDetails; }
-	 * 
-	 * public void setAccountHolderContactDetails(AccountHolderContactDetails
-	 * accountHolderContactDetails) { this.accountHolderContactDetails =
-	 * accountHolderContactDetails; }
-	 */
+	public AccountHolderContactDetails getAccountHolderContactDetails() {
+		return accountHolderContactDetails;
+	}
+
+	public void setAccountHolderContactDetails(AccountHolderContactDetails accountHolderContactDetails) {
+		this.accountHolderContactDetails = accountHolderContactDetails;
+	}
 
 	public CDAccount addCDAccount(CDAccount cdAccount) {
 		cdAccounts.add(cdAccount);
@@ -169,13 +165,12 @@ public class AccountHolder {
 		this.personalCheckingAccounts = personalCheckingAccounts;
 	}
 
-	
 	public RegularIRAAccount addRegularIRAAccount(RegularIRAAccount regularIRAAccount) {
 		regularIRAAccounts.add(regularIRAAccount);
 		return regularIRAAccount;
-		
+
 	}
-	
+
 	public List<RegularIRAAccount> getRegularIRAAccounts() {
 		return regularIRAAccounts;
 	}
@@ -195,7 +190,7 @@ public class AccountHolder {
 	public List<RothIRAAccount> getRothIRAAccounts() {
 		return rothIRAAccounts;
 	}
-	
+
 	public RothIRAAccount addRothIRAAccount(RothIRAAccount rothIRAAccount) {
 		rothIRAAccounts.add(rothIRAAccount);
 		return rothIRAAccount;
@@ -219,9 +214,5 @@ public class AccountHolder {
 	public void setSavingsAccounts(List<SavingsAccount> savingsAccounts) {
 		this.savingsAccounts = savingsAccounts;
 	}
-
-
-
-
 
 }

@@ -2,6 +2,7 @@ package com.meritamerica.capstoneproject.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -38,6 +39,7 @@ public class AccountHolderContactDetails {
 
 	@OneToOne
 	@JoinColumn(name = "contact_id", referencedColumnName = "account_id")
+	@JsonBackReference
 	private AccountHolder accountHolder;
 
 	public long getId() {
