@@ -2,7 +2,6 @@ package com.meritamerica.capstoneproject.models;
 
 import javax.persistence.*;
 
-
 @Entity
 public class CDOffering {
 	
