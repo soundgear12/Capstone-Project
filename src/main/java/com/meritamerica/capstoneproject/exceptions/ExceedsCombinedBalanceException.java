@@ -3,11 +3,11 @@ package com.meritamerica.capstoneproject.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class NegativeAmountException extends Exception {
+@ResponseStatus(HttpStatus.CONFLICT)
+public class ExceedsCombinedBalanceException extends Exception {
 
-	public NegativeAmountException() {
-		System.out.println("NegativeAmountException");
+	public ExceedsCombinedBalanceException() {
+		System.out.println("ExceedsCombinedBalanceLimitException");
 	}
 
 	private static final long serialVersionUID = 1L;
