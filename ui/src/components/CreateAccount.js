@@ -25,7 +25,7 @@ const CreateAccount = () => {
         
 
     
-        fetch("http://localhost:8080/AccountHolders/1/PersonalCheckingAccounts", {
+        fetch("http://localhost:8080/AccountHolders/1/PersonalCheckingAccount", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -38,7 +38,7 @@ const CreateAccount = () => {
         .then(response => response.json())
         .then(response => {
             console.log(response);
-            if (response.cod !== 200) {
+            if (response.cod !== 201) {
                 throw new Error()
             }
     
