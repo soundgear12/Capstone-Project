@@ -27,6 +27,7 @@ import com.meritamerica.capstoneproject.service.AccountHolderService;
 import javassist.NotFoundException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class AccountHolderController {
 
 	@Autowired

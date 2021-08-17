@@ -31,7 +31,9 @@ address{
 .navbar-dark {
   background-color: #181818;
 }
-
+.navbar-nav {
+  list-style-type: none;
+}
 
 .page-enter {
   opacity: 0.01;

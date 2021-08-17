@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 
+
 class FetchAccounts extends Component {
 
     constructor(props) {
@@ -9,20 +10,21 @@ class FetchAccounts extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            checking: {}
+            checking: []
         };
     }
 
-    
+
+
 
     componentDidMount() {
         fetch("http://localhost:8080/AccountHolders/1", {
             method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        } 
-            
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            }
+
 
         })
             .then(res => res.json())
@@ -31,7 +33,7 @@ class FetchAccounts extends Component {
                     console.log(result);
                     this.setState({
                         isLoaded: true,
-                        checking: result.checking
+                        checking: result.personalCheckingAccounts
                     });
                 },
                 error => {
@@ -44,47 +46,34 @@ class FetchAccounts extends Component {
             );
     }
 
-    createTable = () => {
-        const checking = this.state;
-        let ratesArr = Object.keys(checking).map(i => checking[i])[2];
-        let table = [];
-        let children = [];
-        let accountInfo = ["firstName", "middleName", "lastName", "ssn"]
 
-        for (var key in ratesArr) {
-            if (ratesArr.hasOwnProperty(key) && accountInfo.includes(key)) {
-              children.push(
-                <tr>
-                  <td>{key}</td>
-                  <td>{(ratesArr[key], 0)}</td>
-                  <td>{(ratesArr[key])}</td>
-                  <td>{(ratesArr[key], 1)}</td>
-                </tr>
-              );
-            }
-          }
-
-
-       
-
-        table.push(<tbody>{children}</tbody>);
-
-        return table;
-    };
 
     render() {
-      
-            return (
-                <main>
-                    <div className="App-body">
-                            <ul>
-                                <li>firstName:</li>
-                            </ul>
-
-
-                    </div>
-                </main>
-            );
+        return (
+            <div>
+                <h2 className="text-center">Checking Account Details</h2>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Account Number</th>
+                            <th>interestRate</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.checking.map(check => 
+                            <tr key={check.accountNumber}>
+                            <td>{check.accountNumber}</td>
+                            <td>{check.interestRate}</td>
+                            <td>{check.balance}</td>
+                        </tr>
+                        )
+                        } 
+            
+                    </tbody>
+                    </table>
+                </div>
+                );
         }
     
 
@@ -92,4 +81,4 @@ class FetchAccounts extends Component {
 
 }
 
-export default FetchAccounts;
+                export default FetchAccounts;
