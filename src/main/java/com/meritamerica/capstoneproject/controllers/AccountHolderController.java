@@ -15,6 +15,7 @@ import com.meritamerica.capstoneproject.models.AccountHolder;
 import com.meritamerica.capstoneproject.models.DBACheckingAccount;
 import com.meritamerica.capstoneproject.models.PersonalCheckingAccount;
 import com.meritamerica.capstoneproject.models.RegularIRAAccount;
+import com.meritamerica.capstoneproject.models.RolloverIRAAccount;
 import com.meritamerica.capstoneproject.models.RothIRAAccount;
 import com.meritamerica.capstoneproject.models.SavingsAccount;
 import com.meritamerica.capstoneproject.repository.AccountHolderRepository;
@@ -173,6 +174,24 @@ public class AccountHolderController {
 	public List<RothIRAAccount> getRothIRAAccounts(@PathVariable(name = "id") long id) throws Exception, NotFoundException {
 		
 		return accountHolderService.getRothIRAAccounts(id);
+	}
+	
+	//RolloverIRAAccount
+	@PostMapping(value = "/AccountHolders/{id}/RolloverIRAAccount")
+	@ResponseStatus(HttpStatus.CREATED)
+	public RolloverIRAAccount addRolloverIRAAccount(@PathVariable(name = "id") long id, @RequestBody @Valid RolloverIRAAccount rolloverIRAAccount) {
+		
+		rolloverIRAAccount = accountHolderService.addRolloverIRAAccount(id, rolloverIRAAccount);
+		
+		return rolloverIRAAccount;
+		
+	}
+	
+	@GetMapping(value = "/AccountHolders/{id}/RolloverIRAAccount")
+	@ResponseStatus(HttpStatus.OK)
+	public List<RolloverIRAAccount> getRolloverIRAAccounts(@PathVariable(name = "id") long id) throws Exception, NotFoundException {
+		
+		return accountHolderService.getRolloverIRAAccounts(id);
 	}
 	
 	

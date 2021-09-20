@@ -179,6 +179,13 @@ public class AccountHolder {
 		this.regularIRAAccounts = regularIRAAccounts;
 	}
 
+	public RolloverIRAAccount addRolloverIRAAccount(RolloverIRAAccount rolloverIRAAccount) {
+		rolloverIRAAccounts.add(rolloverIRAAccount);
+		return rolloverIRAAccount;
+
+	}
+
+	
 	public List<RolloverIRAAccount> getRolloverIRAAccounts() {
 		return rolloverIRAAccounts;
 	}

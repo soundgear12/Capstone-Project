@@ -11,6 +11,7 @@ import com.meritamerica.capstoneproject.models.CDAccount;
 import com.meritamerica.capstoneproject.models.DBACheckingAccount;
 import com.meritamerica.capstoneproject.models.PersonalCheckingAccount;
 import com.meritamerica.capstoneproject.models.RegularIRAAccount;
+import com.meritamerica.capstoneproject.models.RolloverIRAAccount;
 import com.meritamerica.capstoneproject.models.RothIRAAccount;
 import com.meritamerica.capstoneproject.models.SavingsAccount;
 import com.meritamerica.capstoneproject.repository.AccountHolderContactDetailsRepository;
@@ -183,6 +184,20 @@ public class AccountHolderService {
 
 	}
 	
-	
+	public RolloverIRAAccount addRolloverIRAAccount(long id, RolloverIRAAccount rolloverIRAAccount) {
+
+		AccountHolder account = getAccountById(id);
+
+		account.addRolloverIRAAccount(rolloverIRAAccount);
+		rolloverIRAAccount.setAccountHolder(account);
+
+		return rolloverIRAAccountRepo.save(rolloverIRAAccount);
+	}
+
+	public List<RolloverIRAAccount> getRolloverIRAAccounts(long id) {
+
+		return getAccountById(id).getRolloverIRAAccounts();
+
+	}
 	
 }
