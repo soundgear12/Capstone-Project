@@ -94,11 +94,11 @@ public class AccountHolderService {
 	public PersonalCheckingAccount deletePersonalCheckingAccount(long id,
 			PersonalCheckingAccount personalCheckingAccount) {
 
-		AccountHolder account = getAccountById(id);
+		//AccountHolder account = getAccountById(id);
 
-		account.setPersonalCheckingAccounts(null);
+		//account.setPersonalCheckingAccounts(null);
 		//personalCheckingAccount.setAccountHolder(account);
-		personalCheckingAccountRepo.delete(personalCheckingAccount);
+		personalCheckingAccountRepo.deleteAll();
 		return personalCheckingAccountRepo.save(personalCheckingAccount);
 	}
 
