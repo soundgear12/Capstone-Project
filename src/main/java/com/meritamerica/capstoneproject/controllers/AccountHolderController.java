@@ -175,4 +175,11 @@ public class AccountHolderController {
 		return accountHolderService.getRothIRAAccounts(id);
 	}
 	
+	
+	//Deleting Accounts
+	@RequestMapping(value = "/AccountHolders/{id}/PersonalCheckingAccount", method = RequestMethod.DELETE)
+	public PersonalCheckingAccount deletePersonalCheckingAccount(@PathVariable(name = "id") long id, @RequestBody @Valid PersonalCheckingAccount personalCheckingAccount) {
+		return accountHolderService.deletePersonalCheckingAccount(id, personalCheckingAccount);
+	}
+	
 }

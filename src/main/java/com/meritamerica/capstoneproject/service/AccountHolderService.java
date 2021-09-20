@@ -90,6 +90,17 @@ public class AccountHolderService {
 		return getAccountById(id).getPersonalCheckingAccounts();
 
 	}
+	
+	public PersonalCheckingAccount deletePersonalCheckingAccount(long id,
+			PersonalCheckingAccount personalCheckingAccount) {
+
+		AccountHolder account = getAccountById(id);
+
+		account.setPersonalCheckingAccounts(null);
+		//personalCheckingAccount.setAccountHolder(account);
+		personalCheckingAccountRepo.delete(personalCheckingAccount);
+		return personalCheckingAccountRepo.save(personalCheckingAccount);
+	}
 
 	public SavingsAccount addSavingsAccount(long id, SavingsAccount savingsAccount) {
 
@@ -171,5 +182,7 @@ public class AccountHolderService {
 		return getAccountById(id).getRothIRAAccounts();
 
 	}
+	
+	
 	
 }
